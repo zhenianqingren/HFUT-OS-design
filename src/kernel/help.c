@@ -16,7 +16,7 @@ int sys_help(int argc, char *argv[]) {
 
   int sys_num = 9;
   for (int i = 0; i < CMDCOUNT; ++i) {
-    if ((sys_num = sys_call(cmdmsg, argv[i], CMDCOUNT)) != -1)
+    if ((sys_num = sys_call(cmdset, argv[i], CMDCOUNT)) != -1)
       break;
   }
 

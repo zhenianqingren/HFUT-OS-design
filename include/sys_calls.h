@@ -21,7 +21,7 @@
 #define SYS_exit 8
 #define SYS_help 9
 #define SYS_more 10
-#define HOME_DIR "~/repository/WSL/OSdesign>"
+#define HOME_DIR "user@ubuntu:~/>"
 
 #define INPUTBUFFER 1024
 #define MAXARGS 512

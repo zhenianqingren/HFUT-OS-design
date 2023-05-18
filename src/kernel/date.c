@@ -12,11 +12,14 @@ static int set = 1;
 static struct tm *_time;
 static time_t timet;
 
-static int varg(int argc, char *argv[]) {
+static int varg(int argc, char *argv[])
+{
   if (parse(argc, argv) != 0)
     return -1;
-  for (int i = 0; i < argc; ++i) {
-    if (argv[i][0] == '?') {
+  for (int i = 0; i < argc; ++i)
+  {
+    if (argv[i][0] == '?')
+    {
       wbuf = dth;
       set = 0;
       break;
@@ -28,9 +31,11 @@ static int varg(int argc, char *argv[]) {
   return 0;
 }
 
-static int transnum(char **strn_addr, char delim) {
+static int transnum(char **strn_addr, char delim)
+{
   int res = 0;
-  while (*(*strn_addr) != delim) {
+  while (*(*strn_addr) != delim)
+  {
     if (*(*strn_addr) == '\0')
       break;
 
@@ -64,8 +69,10 @@ timedatectl set-ntp true
 timedatectl set-ntp false
 */
 
-static size_t print_t(const char *format) {
-  if (wbuf == strtime) {
+static size_t print_t(const char *format)
+{
+  if (wbuf == strtime)
+  {
     // transform date formate readable
     timet = time(NULL);
     _time = localtime(&timet);
@@ -77,7 +84,8 @@ static size_t print_t(const char *format) {
   return total;
 }
 
-static int setnewt(const char *prompt, size_t offset, int *newt, char delim) {
+static int setnewt(const char *prompt, size_t offset, int *newt, char delim)
+{
   // reset current time
   output(STDOUT_FILENO, prompt, strlen(prompt));
   char *bufp = strtime + offset;
@@ -98,14 +106,16 @@ static int setnewt(const char *prompt, size_t offset, int *newt, char delim) {
   return 0;
 }
 
-int sys_date(int argc, char *argv[]) {
+int sys_date(int argc, char *argv[])
+{
 
   if (varg(argc, argv) != 0)
     return -1;
 
   size_t offset = print_t("%Y/%m/%d %A\n");
 
-  if (set == 1) {
+  if (set == 1)
+  {
     // reset current time
     int newt[3];
     if (setnewt("input new time:(year/month/day): ", offset, newt, '/') != 0)
@@ -126,13 +136,15 @@ int sys_date(int argc, char *argv[]) {
   return 0;
 }
 
-int sys_time(int argc, char *argv[]) {
+int sys_time(int argc, char *argv[])
+{
   if (varg(argc, argv) != 0)
     return -1;
 
   size_t offset = print_t("current time: %H:%M:%S\n");
 
-  if (set == 1) {
+  if (set == 1)
+  {
     // reset current time
     int newt[3];
     if (setnewt("input new time:(hour:minute:second): ", offset, newt, ':') !=

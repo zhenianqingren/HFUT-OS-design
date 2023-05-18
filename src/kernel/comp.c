@@ -55,10 +55,12 @@ static unsigned long diff = 0;
 static int diffline = 0;
 static int nl = -1;
 
-int sys_comp(int argc, char *argv[]) {
+int sys_comp(int argc, char *argv[])
+{
 
   varg(argc, argv, COMP);
-  if (enable[7] == 1) {
+  if (enable[7] == 1)
+  {
     output(STDOUT_FILENO, comph, strlen(comph));
     return 0;
   }
@@ -66,9 +68,11 @@ int sys_comp(int argc, char *argv[]) {
   if (fd1 == -1 || fd2 == -1)
     return -1;
 
-  if (enable[A] == 1) {
+  if (enable[A] == 1)
+  {
     ascii(COMP);
-    if (enable[L] == 1) {
+    if (enable[L] == 1)
+    {
       if (enable[N] == 0 && diffline != 0)
         write_num(diffline);
       else if (enable[N] == 1 && diffline != 0)
@@ -77,7 +81,9 @@ int sys_comp(int argc, char *argv[]) {
         output(STDOUT_FILENO, "0", 1);
       output(STDOUT_FILENO, "\n", 1);
     }
-  } else {
+  }
+  else
+  {
     comp_bin();
   }
   if (diff != 0 || diffline != 0)
@@ -90,9 +96,11 @@ int sys_comp(int argc, char *argv[]) {
   return 0;
 }
 
-int sys_fc(int argc, char *argv[]) {
+int sys_fc(int argc, char *argv[])
+{
   varg(argc, argv, FC);
-  if (enable[7] == 1) {
+  if (enable[7] == 1)
+  {
     output(STDOUT_FILENO, fch, strlen(fch));
     return 0;
   }
@@ -104,9 +112,11 @@ int sys_fc(int argc, char *argv[]) {
   if (fd1 == -1 || fd2 == -1)
     return -1;
 
-  if (enable[A] == 1) {
+  if (enable[A] == 1)
+  {
     ascii(FC);
-    if (enable[L] == 1) {
+    if (enable[L] == 1)
+    {
       if (enable[N] == 0 && diffline != 0)
         write_num(diffline);
       else if (enable[N] == 1 && diffline != 0)
@@ -115,7 +125,9 @@ int sys_fc(int argc, char *argv[]) {
         output(STDOUT_FILENO, "0", 1);
       output(STDOUT_FILENO, "\n", 1);
     }
-  } else {
+  }
+  else
+  {
     fc_bin();
   }
 
@@ -126,53 +138,66 @@ int sys_fc(int argc, char *argv[]) {
   return 0;
 }
 
-static void regis_enable(const char *arg, int macro) {
+static void regis_enable(const char *arg, int macro)
+{
   for (int i = 0; i < macro; ++i)
-    if (self_strcmp(arg, args[i]) == 0) {
+    if (self_strcmp(arg, args[i]) == 0)
+    {
       enable[i] = 1;
       break;
-    } else if (strcmp(arg, "/?") == 0) {
+    }
+    else if (strcmp(arg, "/?") == 0)
+    {
       enable[7] = 1;
       break;
     }
 }
 
-static void openf(const char *fn) {
+static void openf(const char *fn)
+{
   int fd;
 
-  while ((fd = open(fn, O_RDONLY)) == -1) {
+  while ((fd = open(fn, O_RDONLY)) == -1)
+  {
     if (errno != EINTR)
       break;
   }
-  if (fd1 == -1) {
+  if (fd1 == -1)
+  {
     fd1 = fd;
     fn1 = fn;
     return;
   }
-  if (fd2 == -1) {
+  if (fd2 == -1)
+  {
     fd2 = fd;
     fn2 = fn;
   }
 }
 
-static void varg(int argc, char *argv[], int macro) {
-  for (int i = 0; i < argc; ++i) {
-    if (argv[i][0] == '/') {
+static void varg(int argc, char *argv[], int macro)
+{
+  for (int i = 0; i < argc; ++i)
+  {
+    if (argv[i][0] == '/')
+    {
       regis_enable(argv[i], macro);
 
       if (argv[i][1] == 'N' && argv[i][2] == '=')
         nl = atoi(&argv[i][3]);
-
-    } else
+    }
+    else
       openf(argv[i]);
   }
 }
 
-static int cmp1(char c1, char c2) { // ascii from 0 to 127
+static int cmp1(char c1, char c2)
+{ // ascii from 0 to 127
   if (c1 & 0x80 || c2 & 0x80)
     return -1;
 
-  if (enable[C] == 1) {
+  if (enable[C] == 1)
+  {
     c1 = toupper(c1);
     c2 = toupper(c2);
   }
@@ -182,10 +207,12 @@ static int cmp1(char c1, char c2) { // ascii from 0 to 127
 
 static int cmp2(char c1, char c2) { return c1 & c2; }
 
-static int compbuf(char *buf1, char *buf2, int n) {
+static int compbuf(char *buf1, char *buf2, int n)
+{
   int i;
   for (i = 0; i < n; ++i)
-    if (buf1[i] != buf2[i]) {
+    if (buf1[i] != buf2[i])
+    {
       ++diff;
       break;
     }
@@ -193,7 +220,8 @@ static int compbuf(char *buf1, char *buf2, int n) {
   return diff;
 }
 
-static int linecmp(char *s1, char *s2) {
+static int linecmp(char *s1, char *s2)
+{
   int l1 = strlen(s1);
   int l2 = strlen(s2);
 
@@ -204,20 +232,25 @@ static int linecmp(char *s1, char *s2) {
   return l1 - l2 == 0 ? 0 : 1;
 }
 
-static void tabtrans(char *line) {
-  while (*line != '\0') {
+static void tabtrans(char *line)
+{
+  while (*line != '\0')
+  {
     if (*line == '\t')
       *line = ' ';
     ++line;
   }
 }
 
-static void del_mspace(char *line) {
+static void del_mspace(char *line)
+{
   char *faster = line + 1;
-  while (1) {
+  while (1)
+  {
     if ((*line == ' ' || *line == '\t') && *line == *faster)
       ++faster;
-    else {
+    else
+    {
       ++line;
       *line = *faster;
       ++faster;
@@ -228,7 +261,8 @@ static void del_mspace(char *line) {
   }
 }
 
-static void prin2line(char *line1, char *line2, int line) {
+static void prin2line(char *line1, char *line2, int line)
+{
   write_num(line);
   output(STDOUT_FILENO, ":\n", 2);
   int l = strlen(line1);
@@ -247,13 +281,15 @@ static void prin2line(char *line1, char *line2, int line) {
     output(STDOUT_FILENO, "null\n", 5);
 }
 
-static int ascii(int macro) {
+static int ascii(int macro)
+{
   char buf1[(MAXLEN << 5)];
   char buf2[(MAXLEN << 5)];
   int n1 = 1, n2 = 1;
 
   int lines = 0; // line which is going to compared
-  while (n1 != 0 || n2 != 0) {
+  while (n1 != 0 || n2 != 0)
+  {
     n1 = input(fd1, buf1);
     n2 = input(fd2, buf2);
     ++lines;
@@ -264,12 +300,14 @@ static int ascii(int macro) {
 
     if (n1 == 0 && n2 == 0)
       break;
-    if (enable[T] == 1) {
+    if (enable[T] == 1)
+    {
       tabtrans(buf1);
       tabtrans(buf2);
     }
 
-    if (enable[W] == 1) {
+    if (enable[W] == 1)
+    {
       if (buf1[0] != '\0' && buf1[1] != '\0')
         del_mspace(buf1);
 
@@ -287,17 +325,20 @@ static int ascii(int macro) {
   return 0;
 }
 
-static int comp_bin() {
+static int comp_bin()
+{
 
   int nread1 = 1;
   int nread2 = 1;
   //   avoid segmentation fault
   char ch1[BUFSIZE << 1];
   char ch2[BUFSIZE << 1];
-  while (nread1 != 0 || nread2 != 0) {
+  while (nread1 != 0 || nread2 != 0)
+  {
     nread1 = nread(fd1, ch1, BUFSIZE);
     nread2 = nread(fd2, ch2, BUFSIZE);
-    if (nread1 != nread2) {
+    if (nread1 != nread2)
+    {
       ++diff;
       return 0;
     }
@@ -313,8 +354,10 @@ char hexdigit(int digit) { return digit > 9 ? 'a' + digit - 10 : digit + '0'; }
 char decdigit(int digit) { return '0' + digit; }
 
 static void transnum(char *last, unsigned int addr, int mod,
-                     char (*transch)(int)) {
-  while (addr != 0) {
+                     char (*transch)(int))
+{
+  while (addr != 0)
+  {
     *last = transch(addr % mod);
     addr /= mod;
     --last;
@@ -322,21 +365,25 @@ static void transnum(char *last, unsigned int addr, int mod,
 }
 
 static void print_diff(unsigned int base, unsigned int ind, char c1, char c2,
-                       int c1p, int c2p) {
+                       int c1p, int c2p)
+{
   unsigned int addr = base * BUFSIZE + ind;
   char buf[16] = "0x00000000: ";
   transnum(&buf[9], addr, 16, hexdigit);
   output(STDOUT_FILENO, buf, ADDRWITHSPACE);
   char num1[8 << 1];
   char num2[8 << 1];
-  if (enable[D] == 0) {
+  if (enable[D] == 0)
+  {
     strcpy(num1, "0x00    ");
     strcpy(num2, "0x00\n");
     if (c1p > 0)
       transnum(&num1[3], c1 & 0xff, 16, hexdigit);
     if (c2p > 0)
       transnum(&num2[3], c2 & 0xff, 16, hexdigit);
-  } else {
+  }
+  else
+  {
     strcpy(num1, "0000    ");
     strcpy(num2, "0000\n");
     if (c1p > 0)
@@ -346,7 +393,8 @@ static void print_diff(unsigned int base, unsigned int ind, char c1, char c2,
   }
 
   // debug
-  if (strncmp("7295", num1, 4) == 0) {
+  if (strncmp("7295", num1, 4) == 0)
+  {
     num1[15] = 'a';
   }
 
@@ -361,10 +409,13 @@ static void print_diff(unsigned int base, unsigned int ind, char c1, char c2,
     output(STDOUT_FILENO, "null\n", 5);
 }
 
-static void fcbuf(char *buf1, char *buf2, unsigned int base, int n1, int n2) {
+static void fcbuf(char *buf1, char *buf2, unsigned int base, int n1, int n2)
+{
   int i;
-  for (i = 0; i < n1 || i < n2; ++i) {
-    if (buf1[i] != buf2[i]) {
+  for (i = 0; i < n1 || i < n2; ++i)
+  {
+    if (buf1[i] != buf2[i])
+    {
       print_diff(base, i, buf1[i], buf2[i], n1, n2);
       ++diff;
       --n1;
@@ -373,7 +424,8 @@ static void fcbuf(char *buf1, char *buf2, unsigned int base, int n1, int n2) {
   }
 }
 
-static void fc_bin() {
+static void fc_bin()
+{
 
   int nread1 = 1;
   int nread2 = 1;
@@ -381,7 +433,8 @@ static void fc_bin() {
   char ch1[BUFSIZE << 1];
   char ch2[BUFSIZE << 1];
   int base = 0;
-  while (nread1 != 0 || nread2 != 0) {
+  while (nread1 != 0 || nread2 != 0)
+  {
     nread1 = nread(fd1, ch1, BUFSIZE);
     nread2 = nread(fd2, ch2, BUFSIZE);
     fcbuf(ch1, ch2, base, nread1, nread2);

@@ -14,7 +14,7 @@ test aaa bcd
 2023-01-30T01:13:50.673Z In(05) main  [msg.dictionary.load.openFailed] Cannot open file "C:\MyApp\VMWare\\messages\zh_CN\vmware-mks.vmsg": The system cannot find the file specified.
 2023-01-30T01:13:50.673Z Wa(03) main  Cannot load message dictionary "C:\MyApp\VMWare\\messages\zh_CN\vmware-mks.vmsg".
 2023-01-30T01:13:50.673Z In(05) main  MKSRoleMain: Initializing Preference...
-2023-01-30T01:13:50.689Z In(05) main  DictionaryLoad: Cannot open file "C:\Users\过国郭哒\AppData\Roaming\VMware\config.ini": The system cannot find the file specified.
+2023-01-30T01:13:50.689Z In(05) main  DictionaryLoad: Cannot open file \"C:\Users\过国郭哒\AppData\Roaming\VMware\config.ini\": The system cannot find the file specified.
 2023-01-30T01:13:50.689Z In(05) main  [msg.dictionary.load.openFailed] Cannot open file "C:\Users\过国郭哒\AppData\Roaming\VMware\config.ini": The system cannot find the file specified.
 2023-01-30T01:13:50.689Z In(05) main  PREF Optional preferences file not found at C:\Users\过国郭哒\AppData\Roaming\VMware\config.ini. Using default values.
 2023-01-30T01:13:50.689Z In(05) main  UUID: SMBIOS UUID is reported as 'b4 ef 30 8e 7a d1 ea 11-b2 22 4a 8d 28 fa 24 00'.
@@ -23,7 +23,7 @@ test aaa bcd
 2023-01-30T01:13:50.689Z In(05) main  MKSRoleMain: Initializing Log...
 2023-01-30T01:13:50.689Z In(05) main  MKSRoleMain: Found Config Settings:
 2023-01-30T01:13:50.689Z In(05) main  DICT --- GLOBAL SETTINGS C:\ProgramData\VMware\VMware Workstation\settings.ini
-2023-01-30T01:13:50.689Z In(05) main  DICT          printers.enabled = "FALSE"
+2023-01-30T01:13:50.689Z In(05) main  DICT          printers.enabled = \"FALSE\"
 "t" = "a"
 2023-01-30T01:13:50.689Z In(05) main  DICT --- NON PERSISTENT (null)
 2023-01-30T01:13:50.689Z In(05) main  DICT --- USER PREFERENCES C:\Users\过国郭哒\AppData\Roaming\VMware\preferences.ini

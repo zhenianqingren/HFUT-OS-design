@@ -1,5 +1,5 @@
 CC = gcc -std=gnu99
-CFLAGS = -Iinclude -g
+CFLAGS = -Iinclude -g -O0
 
 vpath %.c src/user
 vpath %.h include

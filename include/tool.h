@@ -16,20 +16,26 @@
 
 #define MAXLEN 32
 
+#define PRE 32
+#define NEX 64
+
 int parse(int argc, char *argv[]);
 int output(int fd, const char *msg, ssize_t n);
 int input(int fd, char *buf);
 int nread(int fd, char *buf, int n);
 
 // doskey structure
-typedef struct pair {
+typedef struct pair
+{
   char sym[MAXLEN];
   char cmd[MAXLEN];
 } pair;
 
 // list node with head insert
-typedef struct node {
+typedef struct node
+{
   void *p;
+  struct node *pre;
   struct node *next;
 } node;
 
@@ -65,6 +71,8 @@ int compch(char a, char b, int ignore); // compare two characters and ignore
 
 char *itos(int integer, char *endp);
 void write_num(int interger);
-int sys_call(const char **cmds, const char *ins,int count);
+int sys_call(const char **cmds, const char *ins, int count);
+int tty_cbreak(int fd);
+int tty_reset(int fd);
 
 #endif
